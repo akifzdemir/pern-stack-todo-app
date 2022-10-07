@@ -40,7 +40,6 @@ class AuthService {
         }
 
         const jwtToken = jwtGenerator(getUser);
-        console.log(getUser)
 
         return { jwtToken }
     }

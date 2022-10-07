@@ -2,7 +2,7 @@ const router = require('express').Router()
 const authorize = require('../middlewares/authorize');
 const todoService = require('../service/todoService');
 
-router.get("/", async (req, res) => {
+router.get("/",authorize, async (req, res) => {
     try {
         const result = await todoService.getAll()
         res.json(result)
@@ -11,20 +11,32 @@ router.get("/", async (req, res) => {
     }
 })
 
-router.get("/:id", async (req, res) => {
-    const { id } = req.params;
+router.get("/:todo_id", async (req, res) => {
+    const { todo_id } = req.params;
     try {
-        const result = todoService.getById(id)
+        const result = await todoService.getById(todo_id)
         res.json(result)
     } catch (error) {
         console.log(error)
     }
 })
 
-router.post("/add", async (req, res) => {
+router.get("/user/:user_id", async (req, res) => {
+    const { user_id } = req.params;
     try {
-        console.log(req.body)
-        const result = await todoService.addTodo(req.body)
+        const result = await todoService.getByUserId(user_id)
+        res.json(result)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
+router.post("/add",authorize, async (req, res) => {
+    const todo = req.body  //req.body = {user_id,firstName,lastname,password,email}
+    todo.user_id = req.user.id
+    try {
+        const result = await todoService.addTodo(todo)
         res.json(result)
     } catch (error) {
         console.log(error)
