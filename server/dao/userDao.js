@@ -1,6 +1,6 @@
 const pool = require("../db")
 
-class AuthDao{
+class UserDao{
     async add(firstName,lastName,email,password){
         try {
             const user = await pool.query(
@@ -27,4 +27,4 @@ class AuthDao{
     
 }
 
-module.exports = new AuthDao()
+module.exports = new UserDao()

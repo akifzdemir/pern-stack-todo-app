@@ -30,7 +30,6 @@ class TodoDao {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     async addTodo(description, user_id) {

@@ -1,4 +1,4 @@
-const authDao = require('../dao/authDao')
+const userDao = require('../dao/userDao')
 const jwtGenerator = require("../utils/jwtGenerator")
 const bcrypt = require('bcryptjs');
 
@@ -9,13 +9,13 @@ class AuthService {
         const salt = await bcrypt.genSalt(10);
         const bcryptPassword = await bcrypt.hash(password, salt);
 
-        const existedUser = await authDao.getByEmail(email);
+        const existedUser = await userDao.getByEmail(email);
 
         if (existedUser) {
             return { message: "User Already Exist" }
         }
 
-        let newUser = await authDao.add(firstName, lastName, email, bcryptPassword)
+        let newUser = await userDao.add(firstName, lastName, email, bcryptPassword)
         const jwtToken = jwtGenerator(newUser.user_id);
         return { jwtToken }
     }
@@ -24,7 +24,7 @@ class AuthService {
     async login(user) {
         const { email, password } = user;
 
-        const getUser = await authDao.getByEmail(email);
+        const getUser = await userDao.getByEmail(email);
 
         if (!getUser) {
             return { message: "User Not Found" }
