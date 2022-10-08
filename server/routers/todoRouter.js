@@ -2,7 +2,7 @@ const router = require('express').Router()
 const authorize = require('../middlewares/authorize');
 const todoService = require('../service/todoService');
 
-router.get("/",authorize, async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const result = await todoService.getAll()
         res.json(result)
