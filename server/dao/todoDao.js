@@ -45,6 +45,15 @@ class TodoDao {
         }
     }
 
+    async deleteTodo(todoId){
+        try {
+            const deleteTodo = await pool.query("DELETE FROM todos WHERE todo_id = $1",[todoId])
+            return deleteTodo.rows[0]
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 }
 

@@ -1,3 +1,4 @@
+const { deleteTodo } = require('../dao/todoDao');
 const todoDao = require('../dao/todoDao')
 
 class TodoService{
@@ -15,6 +16,10 @@ class TodoService{
    async addTodo(todo){
         const {description,user_id} = todo;
         return await todoDao.addTodo(description,user_id)
+    }
+
+    async deleteTodo(todoId){
+        return await todoDao.deleteTodo(todoId)
     }
 }
 

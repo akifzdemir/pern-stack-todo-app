@@ -43,4 +43,14 @@ router.post("/add",authorize, async (req, res) => {
     }
 })
 
+router.post("/delete/:id",async(req,res)=>{
+    const {id} = req.params;
+    try {
+        const result = await todoService.deleteTodo(id)
+        res.json("Todo was deleted")
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports = router;
