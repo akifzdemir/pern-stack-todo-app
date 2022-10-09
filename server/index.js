@@ -6,7 +6,7 @@ const authorize = require('./middlewares/authorize')
 
 const app = express()
 
-app.use(cors())
+app.use(cors({methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']}))
 app.use(express.json())
 
 app.use("/todo",todoRouter)

@@ -32,9 +32,9 @@ router.get("/user/:user_id", async (req, res) => {
 })
 
 
-router.post("/add",authorize, async (req, res) => {
+router.post("/add", async (req, res) => {
     const todo = req.body  //req.body = {user_id,firstName,lastname,password,email}
-    todo.user_id = req.user.id
+    // todo.user_id = req.user.id
     try {
         const result = await todoService.addTodo(todo)
         res.json(result)
