@@ -19,7 +19,12 @@ class TodoService{
     }
 
     async deleteTodo(todoId){
-        return await todoDao.deleteTodo(todoId)
+         return await todoDao.deleteTodo(todoId)
+    }
+    
+    async updateTodo(todo){
+        const {description,id} = todo
+         await todoDao.updateTodo(description,id)
     }
 }
 

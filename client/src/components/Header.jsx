@@ -26,6 +26,7 @@ export default function Header() {
                     borderColor={useColorModeValue('gray.200', 'gray.900')}
                     align={'center'}
                     justifyContent={'space-between'}
+                    boxShadow={'base'}
                 >
                     <Box>Pern Stack Todo App</Box>
                     <Flex alignItems={'center'}>

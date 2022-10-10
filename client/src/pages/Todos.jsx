@@ -16,7 +16,8 @@ import {
     FormLabel,
     Input,
     InputRightElement,
-    InputGroup
+    InputGroup,
+    useToast
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -27,7 +28,8 @@ import { useFormik } from 'formik'
 function Todos() {
 
     const [todos, setTodos] = useState([])
-    
+    const toast = useToast()
+
     const getTodos = async () => {
         try {
             const result = await axios.get("http://localhost:5000/todo")
@@ -38,8 +40,14 @@ function Todos() {
     }
     const deleteTodo = async (id) => {
         try {
-            const result = await axios.post(`http://localhost:5000/todo/delete/${id}`, id)
+            const result = await axios.delete(`http://localhost:5000/todo/delete/${id}`, id)
             getTodos()
+            toast({
+                title: 'Todo deleted.',
+                status: 'success',
+                duration: 1000,
+                isClosable: true,
+            })
             console.log(result)
         } catch (error) {
             console.log(error)
@@ -49,6 +57,12 @@ function Todos() {
         try {
             await axios.post("http://localhost:5000/todo/add", description)
             getTodos()
+            toast({
+                title: 'Todo added.',
+                status: 'success',
+                duration: 1000,
+                isClosable: true,
+            })
         } catch (error) {
             console.log(error)
         }
@@ -58,10 +72,10 @@ function Todos() {
             user_id: 1,
             description: ""
         },
-        onSubmit:async (values) => {
+        onSubmit: async (values) => {
             console.log(values)
             try {
-            await addTodo(values)
+                await addTodo(values)
             } catch (error) {
                 console.log(error.message)
             }
@@ -72,9 +86,9 @@ function Todos() {
     }, [])
 
     return (
-        <Container h={'60vh'} maxW='container.lg' justifyContent={'center'} centerContent>
+        <Container h={'100vh'} maxW='container.lg' justifyContent={'center'} >
             <Heading size={'2xl'} margin={'5'}>Todos</Heading>
-                <FormControl>
+            <FormControl>
                 <form onSubmit={formik.handleSubmit}>
                     <InputGroup size={'md'}>
                         <Input
@@ -91,9 +105,9 @@ function Todos() {
                             </Button>
                         </InputRightElement>
                     </InputGroup>
-                    </form>
-                </FormControl>
-            
+                </form>
+            </FormControl>
+
             <Table variant='striped' size={'lg'}>
                 <Thead>
                     <Tr>

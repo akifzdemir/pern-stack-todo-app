@@ -43,8 +43,8 @@ router.post("/add", async (req, res) => {
     }
 })
 
-router.post("/delete/:id",async(req,res)=>{
-    const {id} = req.params;
+router.delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
     try {
         const result = await todoService.deleteTodo(id)
         res.json("Todo was deleted")
@@ -52,5 +52,20 @@ router.post("/delete/:id",async(req,res)=>{
         console.log(error)
     }
 })
+
+router.post("/update/:id", async (req, res) => {
+    const { id } = req.params
+    const { description } = req.body
+    const updateTodo = { description, id }
+    try {
+        const result = await todoService.updateTodo(updateTodo)
+        
+        res.json("Todo Updated")
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 
 module.exports = router;
