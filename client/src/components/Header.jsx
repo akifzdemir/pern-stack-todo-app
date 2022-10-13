@@ -30,11 +30,10 @@ export default function Header() {
                 >
                     <Box>Pern Stack Todo App</Box>
                     <Flex alignItems={'center'}>
-                        <Stack direction={'row'} spacing={7}>
-                            <Button onClick={toggleColorMode}>
+                        <Stack direction={'row'} spacing={5}>
+                        <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button>
-
                             <Stack
                                 flex={{ base: 1, md: 0 }}
                                 justify={'flex-end'}
@@ -49,7 +48,6 @@ export default function Header() {
                                     Sign In
                                 </Button>
                                 <Button
-                                    display={{ base: 'none', md: 'inline-flex' }}
                                     fontSize={'sm'}
                                     fontWeight={600}
                                     color={'white'}
@@ -60,6 +58,8 @@ export default function Header() {
                                     }}>
                                     Sign Up
                                 </Button>
+
+                               
                             </Stack>
                         </Stack>
                     </Flex>

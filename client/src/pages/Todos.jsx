@@ -17,18 +17,21 @@ import {
     Input,
     InputRightElement,
     InputGroup,
-    useToast
+    useToast,
+    useDisclosure
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
+import TodoUpdateModal from '../components/TodoUpdateModal'
 
 
 function Todos() {
 
     const [todos, setTodos] = useState([])
     const toast = useToast()
+
 
     const getTodos = async () => {
         try {
@@ -48,11 +51,13 @@ function Todos() {
                 duration: 1000,
                 isClosable: true,
             })
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
     }
+
+   
+
     const addTodo = async (description) => {
         try {
             await axios.post("http://localhost:5000/todo/add", description)
@@ -67,6 +72,8 @@ function Todos() {
             console.log(error)
         }
     }
+
+    
     const formik = useFormik({
         initialValues: {
             user_id: 1,
@@ -97,6 +104,8 @@ function Todos() {
                             name='description'
                             onChange={formik.handleChange}
                             placeholder='Todo description'
+                            required
+                            autoComplete='off'
 
                         />
                         <InputRightElement width='6rem'>
@@ -138,29 +147,17 @@ function Todos() {
                                     </Tooltip>
                                 </Td>
                                 <Td>
-                                    <Tooltip label={'Update '} hasArrow>
-                                        <IconButton
-                                            margin={'-1.5'}
-                                            size={'md'}
-                                            fontSize={'x-large'}
-                                            icon={<EditIcon />}
-                                            bg={'yellow.400'}
-                                            color={"white"}
-                                            width={'50%'}
-                                            _hover={{
-                                                bg: 'yellow.300'
-                                            }}
-                                            onClick={() => { deleteTodo(todo.todo_id) }}
-                                        />
-                                    </Tooltip>
+                                    <TodoUpdateModal todo_id={todo.todo_id} getTodos={getTodos}/>
                                 </Td>
                             </Tr>
+
 
                         ))
                     }
 
                 </Tbody>
             </Table>
+
         </Container>
 
     )

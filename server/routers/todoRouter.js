@@ -53,13 +53,9 @@ router.delete("/delete/:id", async (req, res) => {
     }
 })
 
-router.post("/update/:id", async (req, res) => {
-    const { id } = req.params
-    const { description } = req.body
-    const updateTodo = { description, id }
+router.post("/update", async (req, res) => {
     try {
-        const result = await todoService.updateTodo(updateTodo)
-        
+        const result = await todoService.updateTodo(req.body)
         res.json("Todo Updated")
     } catch (error) {
         console.log(error)

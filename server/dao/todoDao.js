@@ -56,8 +56,6 @@ class TodoDao {
     async updateTodo(description,todoId){
         try {
             const updateTodo = await pool.query("UPDATE todos SET description=$1 WHERE todo_id=$2",[description,todoId])
-            console.log(description,todoId)
-            return updateTodo.rows[0]
         } catch (error) {
             console.log(error)
         }
