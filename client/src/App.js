@@ -5,15 +5,20 @@ import Header from './components/Header';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Main from './pages/Main';
+import { useContext } from 'react';
+import AuthContext from './context/AuthContext';
 
 
 
 function App() {
+  const {auth} = useContext(AuthContext)
   return (
     <div>
       <Header />
      <Routes>
-      <Route path='/todos' element={<Todos/>}/>
+      <Route path='/' element={<Main/>}/>
+      <Route path='/todos' element={auth ? <Todos/>:<Main/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
      </Routes>

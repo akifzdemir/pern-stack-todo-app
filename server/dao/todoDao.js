@@ -4,7 +4,7 @@ class TodoDao {
     async getAll() {
         try {
             const allTodos = await pool.query(
-                "SELECT * FROM todos;"
+                "SELECT * FROM todos ORDER BY todo_id;"
             );
             return allTodos.rows
         } catch (error) {

@@ -22,23 +22,27 @@ function TodoUpdateModal(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
 
-    const updateTodo = async (values) => {
+    const updateTodo = async (values,token) => {
         console.log(values)
         try {
-            await axios.post("http://localhost:5000/todo/update", values)
+            await axios.post("http://localhost:5000/todo/update", values,{
+                headers:{
+                    'jwt_token':token
+                }})
         } catch (error) {
             console.log(error)
         }
     }
-
     const formik = useFormik({
         initialValues: {
             id: props.todo_id,
             description: ""
         },
         onSubmit: async(values) => {
+            const token  = localStorage.getItem('token')
             try {
-               await updateTodo(values)
+               if (token) {
+                await updateTodo(values,token)
                props.getTodos()
                onClose()
                toast({
@@ -47,6 +51,14 @@ function TodoUpdateModal(props) {
                 duration: 1000,
                 isClosable: true,
             })
+               }else{
+                toast({
+                    title: 'Auth Error',
+                    status: 'error',
+                    duration: 1000,
+                    isClosable: true,
+                })
+               }
             } catch (error) {
                 console.log(error)
             }

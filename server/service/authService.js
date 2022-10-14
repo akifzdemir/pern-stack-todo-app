@@ -16,7 +16,7 @@ class AuthService {
         }
 
         let newUser = await userDao.add(firstName, lastName, email, bcryptPassword)
-        const jwtToken = jwtGenerator(newUser.user_id);
+        const jwtToken = jwtGenerator(newUser);
         return { jwtToken }
     }
 

@@ -32,9 +32,9 @@ router.get("/user/:user_id", async (req, res) => {
 })
 
 
-router.post("/add", async (req, res) => {
+router.post("/add", authorize,async (req, res) => {
     const todo = req.body  //req.body = {user_id,firstName,lastname,password,email}
-    // todo.user_id = req.user.id
+     todo.user_id = req.user.id
     try {
         const result = await todoService.addTodo(todo)
         res.json(result)
@@ -43,7 +43,7 @@ router.post("/add", async (req, res) => {
     }
 })
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id",authorize, async (req, res) => {
     const { id } = req.params;
     try {
         const result = await todoService.deleteTodo(id)
@@ -53,7 +53,7 @@ router.delete("/delete/:id", async (req, res) => {
     }
 })
 
-router.post("/update", async (req, res) => {
+router.post("/update",authorize, async (req, res) => {
     try {
         const result = await todoService.updateTodo(req.body)
         res.json("Todo Updated")

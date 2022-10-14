@@ -25,42 +25,56 @@ import axios from 'axios'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { useFormik } from 'formik'
 import TodoUpdateModal from '../components/TodoUpdateModal'
+import { useContext } from 'react'
+import AuthContext from '../context/AuthContext'
 
 
 function Todos() {
 
     const [todos, setTodos] = useState([])
     const toast = useToast()
+    const { user } = useContext(AuthContext)
 
 
     const getTodos = async () => {
         try {
-            const result = await axios.get("http://localhost:5000/todo")
+            const result = await axios.get(`http://localhost:5000/todo/user/${user.userId}`)
             setTodos(result.data)
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
         }
     }
     const deleteTodo = async (id) => {
+        const token = localStorage.getItem("token")
         try {
-            const result = await axios.delete(`http://localhost:5000/todo/delete/${id}`, id)
-            getTodos()
-            toast({
-                title: 'Todo deleted.',
-                status: 'success',
-                duration: 1000,
-                isClosable: true,
-            })
+            if (token) {
+                await axios.delete(`http://localhost:5000/todo/delete/${id}`, {
+                    headers: {
+                        'jwt_token': token
+                    }
+                })
+                getTodos()
+                toast({
+                    title: 'Todo deleted.',
+                    status: 'success',
+                    duration: 1000,
+                    isClosable: true,
+                })
+            } else {
+                console.log("Auth error")
+            }
         } catch (error) {
             console.log(error)
         }
     }
 
-   
-
-    const addTodo = async (description) => {
+    const addTodo = async (description, token) => {
         try {
-            await axios.post("http://localhost:5000/todo/add", description)
+            await axios.post("http://localhost:5000/todo/add", description, {
+                headers: {
+                    'jwt_token': token
+                }
+            })
             getTodos()
             toast({
                 title: 'Todo added.',
@@ -69,20 +83,19 @@ function Todos() {
                 isClosable: true,
             })
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
         }
     }
-
-    
     const formik = useFormik({
         initialValues: {
-            user_id: 1,
             description: ""
         },
         onSubmit: async (values) => {
-            console.log(values)
+            const token = localStorage.getItem('token')
             try {
-                await addTodo(values)
+                if (token) {
+                    await addTodo(values, token)
+                }
             } catch (error) {
                 console.log(error.message)
             }
@@ -90,7 +103,7 @@ function Todos() {
     })
     useEffect(() => {
         getTodos()
-    }, [])
+    }, [user.userId])
 
     return (
         <Container h={'100vh'} maxW='container.lg' justifyContent={'center'} >
@@ -106,7 +119,6 @@ function Todos() {
                             placeholder='Todo description'
                             required
                             autoComplete='off'
-
                         />
                         <InputRightElement width='6rem'>
                             <Button type='submit' colorScheme={'green'} size='md'>
@@ -147,14 +159,13 @@ function Todos() {
                                     </Tooltip>
                                 </Td>
                                 <Td>
-                                    <TodoUpdateModal todo_id={todo.todo_id} getTodos={getTodos}/>
+                                    <TodoUpdateModal todo_id={todo.todo_id} getTodos={getTodos} />
                                 </Td>
                             </Tr>
 
 
                         ))
                     }
-
                 </Tbody>
             </Table>
 
