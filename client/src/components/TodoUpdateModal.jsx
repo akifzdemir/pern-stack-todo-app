@@ -88,7 +88,7 @@ function TodoUpdateModal(props) {
                 <ModalOverlay />
                 <form onSubmit={formik.handleSubmit}>
                     <ModalContent>
-                        <ModalHeader>Modal Title</ModalHeader>
+                        <ModalHeader>Update Todo</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <Input

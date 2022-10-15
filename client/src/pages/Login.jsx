@@ -93,6 +93,7 @@ return (
               onChange={formik.handleChange}
               name="email"
               value={formik.values.email}
+              required
             />
           </FormControl>
           <FormControl id="password">
@@ -102,15 +103,10 @@ return (
               onChange={formik.handleChange}
               name="password"
               value={formik.values.password}
+              required
             />
           </FormControl>
           <Stack spacing={10}>
-            <Stack
-              direction={{ base: 'column', sm: 'row' }}
-              align={'start'}
-              justify={'space-between'}>
-              <Link color={'blue.400'}>Forgot password?</Link>
-            </Stack>
             <Button
               bg={'blue.400'}
               color={'white'}

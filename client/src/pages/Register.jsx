@@ -99,17 +99,19 @@ function Register() {
                                         name='firstName'
                                         onChange={formik.handleChange}
                                         value={formik.values.firstName}
+                                        required
                                     />
                                 </FormControl>
                             </Box>
                             <Box>
-                                <FormControl id="lastName">
-                                    <FormLabel>Last Name</FormLabel>
+                                <FormControl id="lastName" isRequired>
+                                    <FormLabel >Last Name</FormLabel>
                                     <Input
                                         type="text"
                                         name='lastName'
                                         onChange={formik.handleChange}
                                         value={formik.values.lastName}
+                                        required
                                     />
                                 </FormControl>
                             </Box>
@@ -120,6 +122,7 @@ function Register() {
                                 type="email"
                                 name='email'
                                 onChange={formik.handleChange}
+                                required
                                 value={formik.values.email}
                             />
                         </FormControl>
@@ -131,6 +134,7 @@ function Register() {
                                     name='password'
                                     onChange={formik.handleChange}
                                     value={formik.values.password}
+                                    required
                                 />
                                 <InputRightElement h={'full'}>
                                     <Button
