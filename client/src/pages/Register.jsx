@@ -21,11 +21,13 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const toast = useToast()
     const {auth,setAuth} = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const register = async (values) => {
         try {
@@ -55,6 +57,7 @@ function Register() {
                         duration: 1000,
                         isClosable: true,
                     })
+                    navigate("/todos")
                 }else{
                     toast({
                         title: result.message,
