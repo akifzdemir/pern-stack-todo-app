@@ -12,10 +12,10 @@
 <img src='./readme-images/register.png'/>
 
 **User Todos**
-<img src='./readme-images/usertodos.png.png'/>
+<img src='./readme-images/usertodos.png'/>
 
 **Update Todo**
-<img src='./readme-images/updatetodo.png.png'/>
+<img src='./readme-images/updatetodo.png'/>
 
 **Dark Mode**
 <img src='./readme-images/darkmode.png'/>
