@@ -25,7 +25,7 @@ class TodoDao {
 
     async getByUserId(id) {
         try {
-            const todo = await pool.query("SELECT * FROM todos WHERE user_id = $1", [id])
+            const todo = await pool.query("SELECT * FROM todos WHERE user_id = $1 ORDER BY user_id", [id])
             return todo.rows
         } catch (error) {
             console.log(error)

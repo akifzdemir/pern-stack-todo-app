@@ -15,6 +15,20 @@ export const AuthProvider = ({ children }) => {
     const toast = useToast()
     const navigate = useNavigate()
 
+    const checkTokenExprired = async () => {
+        const token = localStorage.getItem("token")
+        if (token) {
+            let decode = await jwtDecode(token)
+            let currentDate = new Date();
+            if (decode.exp * 1000 < currentDate.getTime()) {
+                localStorage.removeItem("token")
+                console.log("Token Exprired")
+                setAuth(false)
+                navigate("/")
+            }
+        }
+    }
+
     const IsLogged = async () => {
         const token = localStorage.getItem('token')
         try {
@@ -43,6 +57,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         IsLogged()
+        checkTokenExprired()
     }, [auth])
 
     const values = {
